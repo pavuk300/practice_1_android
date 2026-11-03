@@ -7,8 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,14 +18,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -146,7 +151,7 @@ fun TextTypes(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun MyButton(modifier: Modifier = Modifier) {
+fun MyButton() {
     Button( modifier = Modifier.fillMaxWidth(),
         colors = ButtonColors(Color.LightGray,
             Color.Black,
@@ -176,12 +181,16 @@ fun MyButton(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun MyCircle(modifier: Modifier = Modifier) {
-    Box(modifier = Modifier.fillMaxWidth()
+fun MyCircle() {
+    Box(modifier = Modifier
+        .fillMaxWidth()
         .height(100.dp)
-        .background(Color.LightGray).padding(16.dp),
+        .background(Color.LightGray)
+        .padding(16.dp),
         contentAlignment = Alignment.Center) {
-            Box(modifier = Modifier.fillMaxHeight().aspectRatio(1f)
+            Box(modifier = Modifier
+                .fillMaxHeight()
+                .aspectRatio(1f)
                 .background(Color.Red, shape = CircleShape),
                 contentAlignment = Alignment.Center) {
                 Text(text = "ЕВ")
@@ -204,14 +213,20 @@ fun MyCircle(modifier: Modifier = Modifier) {
 @Composable
 fun CircleInRec() {
     Column() {
-        Box(modifier = Modifier.width(240.dp).height(120.dp)
+        Box(modifier = Modifier
+            .width(240.dp)
+            .height(120.dp)
             .background(Color.Black)) {
             Image(painter = painterResource(R.drawable.circle),
                 contentDescription = "aaa",
                 modifier = Modifier.align (Alignment.TopEnd))
         }
-        Box(modifier = Modifier.width(240.dp).height(10.dp))
-        Box(modifier = Modifier.width(240.dp).height(120.dp)
+        Box(modifier = Modifier
+            .width(240.dp)
+            .height(10.dp))
+        Box(modifier = Modifier
+            .width(240.dp)
+            .height(120.dp)
             .background(Color.Blue)) {
             Image(painter = painterResource(R.drawable.circle),
                 contentDescription = "aaa",
@@ -222,13 +237,90 @@ fun CircleInRec() {
     }
 }
 
+//
+//@Preview(showBackground = true,
+//    name = "circle",
+//    showSystemUi = true)
+//@Composable
+//fun CircleInRecPreview() {
+//    Prac1Theme() {
+//        CircleInRec()
+//    }
+//}
+
+
+@Composable
+fun ElementInColumn(text : String) {
+    Row (modifier = Modifier.background(Color.LightGray).fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        ) {
+        Box (modifier = Modifier.widthIn(min = 300.dp)
+                .padding(6.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = text,
+                textAlign = TextAlign.Center
+            )
+        }
+        Box {
+        Image(painter = painterResource(R.drawable.circle), contentDescription = null)
+        }
+    }
+}
+
+@Composable
+fun BasicTextColumn() {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.padding(10.dp, 0.dp)) {
+        ElementInColumn("""
+                Имя: Евгений
+                Отчетство: Викторович
+                Фамилия: Аникин
+                Мобильный телефон: +7 ХХХ ХХХ ХХ-ХХ
+                Адрес: Проспект Ленина, д. 22
+                """.trimIndent())
+        ElementInColumn("""
+                Имя: Арсений
+                Отчетство: Анатальевич
+                Фамилия: Васкин
+                Мобильный телефон: +7 123 456 78-90
+                Адрес: -
+                """.trimIndent())
+        ElementInColumn("""
+                Имя: Василий
+                Отчетство: Владленович
+                Фамилия: Бередин
+                Мобильный телефон: +7 098 765 43-21
+                Адрес: -
+                """.trimIndent())
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyTopBar() {
+    TopAppBar(
+        title = {
+            Text("No Title")
+        }
+    )
+}
 
 @Preview(showBackground = true,
-    name = "circle",
     showSystemUi = true)
 @Composable
-fun CircleInRecPreview() {
-    Prac1Theme() {
-        CircleInRec()
+fun BasicTextColumnPreview() {
+    Scaffold(
+        topBar = {
+            MyTopBar()
+        }
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            BasicTextColumn()
+        }
     }
 }
