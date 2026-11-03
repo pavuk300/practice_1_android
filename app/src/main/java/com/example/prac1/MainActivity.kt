@@ -4,11 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,6 +31,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.prac1.ui.theme.Prac1Theme
 
@@ -59,6 +67,33 @@ fun Greeting(name: String?, modifier: Modifier = Modifier) {
     }
 }
 
+
+//@Preview(showBackground = true,
+//    name = "Portrait",
+//    showSystemUi = true)
+//@Preview(showBackground = true,
+//    name = "landscape",
+//    showSystemUi = true,
+//    device = "spec:orientation=landscape,width=411dp,height=891dp"
+//)
+//@Preview(showBackground = true,
+//    name = "round",
+//    showSystemUi = true,
+//    device = "spec:width=200dp,height=200dp,isRound=true"
+//)
+//@Preview(showBackground = true,
+//    name = "text",
+//    showSystemUi = true,
+//    device = "spec:orientation=landscape,width=411dp,height=891dp"
+//)
+//@Composable
+//fun GreetingPreview() {
+//    Prac1Theme {
+//        Greeting("android")
+//    }
+//}
+
+
 @Composable
 fun TextTypes(modifier: Modifier = Modifier) {
     Surface() {
@@ -92,36 +127,43 @@ fun TextTypes(modifier: Modifier = Modifier) {
 }
 
 //@Preview(showBackground = true,
-//    name = "Portrait",
-//    showSystemUi = true)
-//@Preview(showBackground = true,
-//    name = "landscape",
-//    showSystemUi = true,
-//    device = "spec:orientation=landscape,width=411dp,height=891dp"
-//)
-//@Preview(showBackground = true,
-//    name = "round",
-//    showSystemUi = true,
-//    device = "spec:width=200dp,height=200dp,isRound=true"
-//)
-//@Preview(showBackground = true,
-//    name = "text",
-//    showSystemUi = true,
-//    device = "spec:orientation=landscape,width=411dp,height=891dp"
+//    name = "texts"
 //)
 //@Composable
-//fun GreetingPreview() {
+//fun TextTypesPreview() {
 //    Prac1Theme {
-//        Greeting("android")
+//        TextTypes()
 //    }
 //}
 
-@Preview(showBackground = true,
-    name = "texts"
-)
+
 @Composable
-fun TextTypesPreview() {
-    Prac1Theme {
-        TextTypes()
+fun MyButton(modifier: Modifier = Modifier) {
+    Button( modifier = Modifier.fillMaxWidth(),
+        colors = ButtonColors(Color.LightGray,
+            Color.Black,
+            Color.White,
+            Color.Magenta),
+        border = BorderStroke(2.dp, Color.Gray),
+        shape = RoundedCornerShape(16.dp),
+        onClick = {},
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 4.dp
+        )
+    ) {
+        Text("Нажми на меня")
     }
 }
+
+
+@Preview(showBackground = true,
+    name = "button",
+    showSystemUi = true)
+@Composable
+fun ButtonPreview() {
+    Prac1Theme() {
+        MyButton()
+    }
+}
+
+
