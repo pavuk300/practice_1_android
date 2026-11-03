@@ -42,10 +42,22 @@ fun Greeting(name: String?, modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true,
+    name = "Portrait",
+    showSystemUi = true)
+@Preview(showBackground = true,
+    name = "landscape",
+    showSystemUi = true,
+    device = "spec:orientation=landscape,width=411dp,height=891dp"
+)
+@Preview(showBackground = true,
+    name = "round",
+    showSystemUi = true,
+    device = "spec:width=200dp,height=200dp,isRound=true",
+    )
 @Composable
 fun GreetingPreview() {
     Prac1Theme {
-        Greeting("Android")
+        Greeting(null)
     }
 }
