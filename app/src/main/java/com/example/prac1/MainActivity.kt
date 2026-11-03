@@ -1,6 +1,7 @@
 package com.example.prac1
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -33,6 +34,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -40,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -53,18 +56,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.prac1.ui.theme.Prac1Theme
+import kotlin.random.Random
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            Prac1Theme {
-                WaterTracker()
-            }
-        }
-    }
-}
+//class MainActivity : ComponentActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        enableEdgeToEdge()
+//        setContent {
+//            Prac1Theme {
+//                WaterTracker()
+//            }
+//        }
+//    }
+//}
 
 @Composable
 fun Greeting(name: String?, modifier: Modifier = Modifier) {
@@ -394,19 +398,93 @@ fun WaterTracker() {
 }
 
 
-@Preview(showBackground = true,
-    showSystemUi = true)
-@Composable
-fun BasicTextColumnPreview() {
-    Scaffold(
-        topBar = {
-            MyTopBar()
+//@Preview(showBackground = true,
+//    showSystemUi = true)
+//@Composable
+//fun BasicTextColumnPreview() {
+//    Scaffold(
+//        topBar = {
+//            MyTopBar()
+//        }
+//    ) { innerPadding ->
+//        Box(
+//            modifier = Modifier.padding(innerPadding)
+//        ) {
+//            WaterTracker()
+//        }
+//    }
+//}
+
+
+data class Product(
+    val id: Int,
+    val name: String,
+    val price: Int
+)
+class MainActivity : ComponentActivity() {
+    private var totalSum = 0
+    private var productSize = 0
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ShoppingCartScreen()
         }
-    ) { innerPadding ->
-        Box(
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            WaterTracker()
+    }
+    @Composable
+    fun ShoppingCartScreen() {
+        var products by remember {
+            mutableStateOf(
+                listOf(
+                    Product(0, "Товар #1", 100),
+                    Product(1, "Товар #2", 150),
+                    Product(2, "Товар #3", 56)
+                )
+            )
+        }
+        Column {
+            totalSum = 0
+            productSize = 0
+            for (product in products) {
+                Text(text = product.name + " - " + product.price + " рублей")
+                totalSum += product.price
+                productSize++
+            }
+            // Если сумма заказа больше 500, то показываем сообщение о бесплатной доставке
+            if (totalSum > 500) {
+                Toast.makeText(LocalContext.current, "Доставка бесплатная!", Toast.LENGTH_SHORT).show()
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "Товаров на сумму: $totalSum рублей")
+            AddProductSection {
+                val price = Random.nextInt(0, 100)
+                products = products + Product(
+                    id = products.size,
+                    name = "Товар #${products.size + 1}",
+                    price = price
+                )
+            }
+            if (productSize > 0)
+                RemoveProductSection {
+                    totalSum -= products.last().price
+                    products = products.dropLast(1)
+                    productSize--
+                }
+        }
+    }
+    @Composable
+    fun AddProductSection(onAdd: () -> Unit) {
+        Button(onClick = onAdd) {
+            Text(text = "Добавить товар")
+        }
+    }
+    @Composable
+    fun RemoveProductSection(
+        onRemove: () -> Unit
+    ) {
+        if (productSize > 0) {
+            Button(onClick = onRemove) {
+                Text(text = "Удалить товар")
+            }
         }
     }
 }
