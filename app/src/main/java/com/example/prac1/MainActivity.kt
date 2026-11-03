@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -25,8 +27,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.autofill.contentType
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -186,12 +190,45 @@ fun MyCircle(modifier: Modifier = Modifier) {
 }
 
 
+//@Preview(showBackground = true,
+//    name = "circle",
+//    showSystemUi = true)
+//@Composable
+//fun CirclePreview() {
+//    Prac1Theme() {
+//        MyCircle()
+//    }
+//}
+
+
+@Composable
+fun CircleInRec() {
+    Column() {
+        Box(modifier = Modifier.width(240.dp).height(120.dp)
+            .background(Color.Black)) {
+            Image(painter = painterResource(R.drawable.circle),
+                contentDescription = "aaa",
+                modifier = Modifier.align (Alignment.TopEnd))
+        }
+        Box(modifier = Modifier.width(240.dp).height(10.dp))
+        Box(modifier = Modifier.width(240.dp).height(120.dp)
+            .background(Color.Blue)) {
+            Image(painter = painterResource(R.drawable.circle),
+                contentDescription = "aaa",
+                modifier = Modifier.fillMaxSize(),
+                colorFilter = ColorFilter.tint(Color.Magenta),
+                contentScale = ContentScale.FillBounds)
+        }
+    }
+}
+
+
 @Preview(showBackground = true,
     name = "circle",
     showSystemUi = true)
 @Composable
-fun CirclePreview() {
+fun CircleInRecPreview() {
     Prac1Theme() {
-        MyCircle()
+        CircleInRec()
     }
 }
